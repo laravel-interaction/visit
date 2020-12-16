@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Tests\Models;
+namespace Zing\LaravelEloquentView\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelView\Concerns\Viewer;
+use Zing\LaravelEloquentView\Concerns\Viewer;
 
 /**
- * @method static \Zing\LaravelView\Tests\Models\User|\Illuminate\Database\Eloquent\Builder query()
+ * @method static \Zing\LaravelEloquentView\Tests\Models\User|\Illuminate\Database\Eloquent\Builder query()
  */
 class User extends Model
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Concerns;
+namespace Zing\LaravelEloquentView\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelView\View[] $views
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelEloquentView\View[] $views
  * @property-read int|null $views_count
  */
 trait Viewer
@@ -45,7 +45,7 @@ trait Viewer
      */
     public function views(): HasMany
     {
-        return $this->hasMany(config('view.models.view'), config('view.column_names.user_foreign_key'), $this->getKeyName());
+        return $this->hasMany(config('eloquent-view.models.view'), config('eloquent-view.column_names.user_foreign_key'), $this->getKeyName());
     }
 
     /**
@@ -55,6 +55,6 @@ trait Viewer
      */
     protected function viewedItems(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'viewable', config('view.models.view'), config('view.column_names.user_foreign_key'), 'viewable_id')->withTimestamps();
+        return $this->morphedByMany($class, 'viewable', config('eloquent-view.models.view'), config('eloquent-view.column_names.user_foreign_key'), 'viewable_id')->withTimestamps();
     }
 }

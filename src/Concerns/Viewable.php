@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Concerns;
+namespace Zing\LaravelEloquentView\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use function is_a;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelView\View[] $views
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelView\Concerns\Viewer[] $viewers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelEloquentView\View[] $views
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelEloquentView\Concerns\Viewer[] $viewers
  * @property-read int|null $views_count
  * @property-read int|null $viewers_count
  *
@@ -28,7 +28,7 @@ trait Viewable
      */
     public function isViewedBy(Model $user): bool
     {
-        if (! is_a($user, config('view.models.user'))) {
+        if (! is_a($user, config('eloquent-view.models.user'))) {
             return false;
         }
 
@@ -37,7 +37,7 @@ trait Viewable
         }
 
         return tap($this->relationLoaded('views') ? $this->views : $this->views())
-            ->where(config('view.column_names.user_foreign_key'), $user->getKey())->count() > 0;
+            ->where(config('eloquent-view.column_names.user_foreign_key'), $user->getKey())->count() > 0;
     }
 
     public function isNotViewedBy(Model $user): bool
@@ -50,7 +50,7 @@ trait Viewable
      */
     public function views(): MorphMany
     {
-        return $this->morphMany(config('view.models.view'), 'viewable');
+        return $this->morphMany(config('eloquent-view.models.view'), 'viewable');
     }
 
     /**
@@ -59,11 +59,11 @@ trait Viewable
     public function viewers(): BelongsToMany
     {
         return $this->morphToMany(
-            config('view.models.user'),
+            config('eloquent-view.models.user'),
             'viewable',
-            config('view.models.view'),
+            config('eloquent-view.models.view'),
             null,
-            config('view.column_names.user_foreign_key')
+            config('eloquent-view.column_names.user_foreign_key')
         )->withTimestamps();
     }
 
@@ -87,8 +87,8 @@ trait Viewable
 
     public function loadViewersCount()
     {
-        $view = app(config('view.models.view'));
-        $column = $view->qualifyColumn(config('view.column_names.user_foreign_key'));
+        $view = app(config('eloquent-view.models.view'));
+        $column = $view->qualifyColumn(config('eloquent-view.column_names.user_foreign_key'));
         $this->loadAggregate('views as viewers_count', "COUNT(DISTINCT('{$column}'))");
 
         return $this;
@@ -107,7 +107,7 @@ trait Viewable
 
     protected function numberForHumans($number, $precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        $divisors = collect($divisors ?? config('view.divisors'));
+        $divisors = collect($divisors ?? config('eloquent-view.divisors'));
         $divisor = $divisors->keys()->filter(
             function ($divisor) use ($number) {
                 return $divisor <= abs($number);

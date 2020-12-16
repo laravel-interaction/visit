@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Zing\LaravelView\View;
+use Zing\LaravelEloquentView\View;
 
 return [
     'load_migrations' => true,

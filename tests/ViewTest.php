@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Tests;
+namespace Zing\LaravelEloquentView\Tests;
 
 use Illuminate\Support\Carbon;
-use Zing\LaravelView\Tests\Models\Subject;
-use Zing\LaravelView\Tests\Models\User;
-use Zing\LaravelView\View;
+use Zing\LaravelEloquentView\Tests\Models\Subject;
+use Zing\LaravelEloquentView\Tests\Models\User;
+use Zing\LaravelEloquentView\View;
 
 class ViewTest extends TestCase
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelView\Tests\Models\User
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelEloquentView\Tests\Models\User
      */
     protected $user;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelView\Tests\Models\Subject
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelEloquentView\Tests\Models\Subject
      */
     protected $channel;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\Zing\LaravelView\View|null
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\Zing\LaravelEloquentView\View|null
      */
     protected $view;
 
@@ -50,7 +50,7 @@ class ViewTest extends TestCase
 
     public function testGetTable(): void
     {
-        self::assertSame(config('view.table_names.views'), $this->view->getTable());
+        self::assertSame(config('eloquent-view.table_names.views'), $this->view->getTable());
     }
 
     public function testViewer(): void

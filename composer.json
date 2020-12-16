@@ -1,6 +1,6 @@
 {
-    "name": "zing/laravel-view",
-    "description": "User view behaviour for Laravel.",
+    "name": "zing/laravel-eloquent-view",
+    "description": "User view behaviour for Laravel eloquent.",
     "keywords": ["laravel", "view"],
     "license": "MIT",
     "authors": [
@@ -28,18 +28,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Zing\\LaravelView\\": "src"
+            "Zing\\LaravelEloquentView\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zing\\LaravelView\\Tests\\": "tests"
+            "Zing\\LaravelEloquentView\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Zing\\LaravelView\\ViewServiceProvider"
+                "Zing\\LaravelEloquentView\\ViewServiceProvider"
             ]
         }
     },

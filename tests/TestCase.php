@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Tests;
+namespace Zing\LaravelEloquentView\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Zing\LaravelView\Tests\Models\User;
-use Zing\LaravelView\ViewServiceProvider;
+use Zing\LaravelEloquentView\Tests\Models\User;
+use Zing\LaravelEloquentView\ViewServiceProvider;
 
 class TestCase extends BaseTestCase
 {
@@ -38,7 +38,7 @@ class TestCase extends BaseTestCase
         config(
             [
                 'database.default' => 'testing',
-                'view.models.user' => User::class,
+                'eloquent-view.models.user' => User::class,
             ]
         );
     }

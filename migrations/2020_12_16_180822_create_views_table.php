@@ -14,13 +14,13 @@ class CreateViewsTable extends Migration
     public function up(): void
     {
         Schema::create(
-            config('view.table_names.views'),
+            config('eloquent-view.table_names.views'),
             function (Blueprint $table): void {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger(config('view.column_names.user_foreign_key'))->index()->nullable()->comment('user_id');
+                $table->unsignedBigInteger(config('eloquent-view.column_names.user_foreign_key'))->index()->nullable()->comment('user_id');
                 $table->morphs('viewable');
                 $table->timestamps();
-                $table->index([config('view.column_names.user_foreign_key'), 'viewable_type', 'viewable_id']);
+                $table->index([config('eloquent-view.column_names.user_foreign_key'), 'viewable_type', 'viewable_id']);
             }
         );
     }
@@ -30,6 +30,6 @@ class CreateViewsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('view.table_names.views'));
+        Schema::dropIfExists(config('eloquent-view.table_names.views'));
     }
 }

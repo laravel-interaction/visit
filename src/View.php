@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView;
+namespace Zing\LaravelEloquentView;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property \Illuminate\Database\Eloquent\Model $viewer
  * @property \Illuminate\Database\Eloquent\Model $viewable
  *
- * @method static \Zing\LaravelView\View|\Illuminate\Database\Eloquent\Builder withType(string $type)
- * @method static \Zing\LaravelView\View|\Illuminate\Database\Eloquent\Builder query()
+ * @method static \Zing\LaravelEloquentView\View|\Illuminate\Database\Eloquent\Builder withType(string $type)
+ * @method static \Zing\LaravelEloquentView\View|\Illuminate\Database\Eloquent\Builder query()
  */
 class View extends MorphPivot
 {
@@ -24,7 +24,7 @@ class View extends MorphPivot
 
     public function getTable()
     {
-        return config('view.table_names.views') ?: parent::getTable();
+        return config('eloquent-view.table_names.views') ?: parent::getTable();
     }
 
     /**
@@ -40,7 +40,7 @@ class View extends MorphPivot
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('view.models.user'), config('view.column_names.user_foreign_key'));
+        return $this->belongsTo(config('eloquent-view.models.user'), config('eloquent-view.column_names.user_foreign_key'));
     }
 
     /**

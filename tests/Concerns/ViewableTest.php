@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView\Tests\Concerns;
+namespace Zing\LaravelEloquentView\Tests\Concerns;
 
 use Mockery;
-use Zing\LaravelView\Tests\Models\Subject;
-use Zing\LaravelView\Tests\Models\User;
-use Zing\LaravelView\Tests\TestCase;
+use Zing\LaravelEloquentView\Tests\Models\Subject;
+use Zing\LaravelEloquentView\Tests\Models\User;
+use Zing\LaravelEloquentView\Tests\TestCase;
 
 class ViewableTest extends TestCase
 {

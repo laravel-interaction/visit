@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelView;
+namespace Zing\LaravelEloquentView;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,15 +13,15 @@ class ViewServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                    $this->getConfigPath() => config_path('view.php'),
+                    $this->getConfigPath() => config_path('eloquent-view.php'),
                 ],
-                'view-config'
+                'eloquent-view-config'
             );
             $this->publishes(
                 [
                     $this->getMigrationsPath() => database_path('migrations'),
                 ],
-                'view-migrations'
+                'eloquent-view-migrations'
             );
             if ($this->shouldLoadMigrations()) {
                 $this->loadMigrationsFrom($this->getMigrationsPath());
@@ -31,12 +31,12 @@ class ViewServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom($this->getConfigPath(), 'view');
+        $this->mergeConfigFrom($this->getConfigPath(), 'eloquent-view');
     }
 
     protected function getConfigPath(): string
     {
-        return __DIR__ . '/../config/view.php';
+        return __DIR__ . '/../config/eloquent-view.php';
     }
 
     protected function getMigrationsPath(): string
@@ -46,6 +46,6 @@ class ViewServiceProvider extends ServiceProvider
 
     private function shouldLoadMigrations()
     {
-        return config('view.load_migrations');
+        return config('eloquent-view.load_migrations');
     }
 }

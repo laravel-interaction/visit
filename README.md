@@ -26,7 +26,7 @@ composer require zing/laravel-view
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelView\Concerns\Viewer;
+use Zing\LaravelEloquentView\Concerns\Viewer;
 
 class User extends Model
 {
@@ -38,7 +38,7 @@ class User extends Model
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelView\Concerns\Viewable;
+use Zing\LaravelEloquentView\Concerns\Viewable;
 
 class Subject extends Model
 {
@@ -49,9 +49,9 @@ class Subject extends Model
 ### Viewer
 
 ```php
-use Zing\LaravelView\Tests\Models\Subject;
-/** @var \Zing\LaravelView\Tests\Models\User $user */
-/** @var \Zing\LaravelView\Tests\Models\Subject $channel */
+use Zing\LaravelEloquentView\Tests\Models\Subject;
+/** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
+/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $channel */
 // View to Viewable
 $user->view($channel);
 
@@ -75,10 +75,10 @@ Subject::query()->whereNotViewedBy($user)->get();
 ### Viewable
 
 ```php
-use Zing\LaravelView\Tests\Models\User;
-use Zing\LaravelView\Tests\Models\Subject;
-/** @var \Zing\LaravelView\Tests\Models\User $user */
-/** @var \Zing\LaravelView\Tests\Models\Subject $channel */
+use Zing\LaravelEloquentView\Tests\Models\User;
+use Zing\LaravelEloquentView\Tests\Models\Subject;
+/** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
+/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $channel */
 // Compare Viewer
 $channel->isViewedBy($user); 
 $channel->isNotViewedBy($user);
