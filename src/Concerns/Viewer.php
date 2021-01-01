@@ -29,7 +29,7 @@ trait Viewer
      */
     public function hasViewed(Model $object): bool
     {
-        return tap($this->relationLoaded('views') ? $this->views : $this->views())
+        return ($this->relationLoaded('views') ? $this->views : $this->views())
             ->where('viewable_id', $object->getKey())
             ->where('viewable_type', $object->getMorphClass())
             ->count() > 0;

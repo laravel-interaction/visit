@@ -36,7 +36,7 @@ trait Viewable
             return $this->viewers->contains($user);
         }
 
-        return tap($this->relationLoaded('views') ? $this->views : $this->views())
+        return ($this->relationLoaded('views') ? $this->views : $this->views())
             ->where(config('eloquent-view.column_names.user_foreign_key'), $user->getKey())->count() > 0;
     }
 
