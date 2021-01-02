@@ -19,7 +19,7 @@ class ViewTest extends TestCase
     /**
      * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelEloquentView\Tests\Models\Subject
      */
-    protected $channel;
+    protected $subject;
 
     /**
      * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\Zing\LaravelEloquentView\View|null
@@ -31,8 +31,8 @@ class ViewTest extends TestCase
         parent::setUp();
 
         $this->user = User::query()->create();
-        $this->channel = Subject::query()->create();
-        $this->user->view($this->channel);
+        $this->subject = Subject::query()->create();
+        $this->user->view($this->subject);
         $this->view = View::query()->first();
     }
 
@@ -70,13 +70,13 @@ class ViewTest extends TestCase
 
     public function testIsViewedTo(): void
     {
-        self::assertTrue($this->view->isViewedTo($this->channel));
+        self::assertTrue($this->view->isViewedTo($this->subject));
         self::assertFalse($this->view->isViewedTo($this->user));
     }
 
     public function testIsViewedBy(): void
     {
-        self::assertFalse($this->view->isViewedBy($this->channel));
+        self::assertFalse($this->view->isViewedBy($this->subject));
         self::assertTrue($this->view->isViewedBy($this->user));
     }
 }
