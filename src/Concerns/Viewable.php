@@ -89,7 +89,11 @@ trait Viewable
     {
         $view = app(config('eloquent-view.models.view'));
         $column = $view->qualifyColumn(config('eloquent-view.column_names.user_foreign_key'));
-        $this->loadAggregate('views as viewers_count', "COUNT(DISTINCT('{$column}'))");
+        if (method_exists($this, 'loadAggregate')) {
+            $this->loadAggregate('views as viewers_count', "COUNT(DISTINCT('{$column}'))");
+        } else {
+            $this->viewers_count = $this->views()->selectRaw("COUNT(DISTINCT('{$column}')) as viewers_count")->value('viewers_count');
+        }
 
         return $this;
     }
