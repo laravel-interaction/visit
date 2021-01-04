@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Http\Request;
 use function is_a;
 
 /**
@@ -150,5 +151,12 @@ trait Viewable
                 return $query->whereKey($user->getKey());
             }
         );
+    }
+
+    public function record(Request $request): void
+    {
+        $view = $this->views()->make();
+        $view->{config('eloquent-view.column_names.user_foreign_key')} = optional($request->user())->getKey();
+        $view->save();
     }
 }

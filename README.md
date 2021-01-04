@@ -51,13 +51,13 @@ class Subject extends Model
 ```php
 use Zing\LaravelEloquentView\Tests\Models\Subject;
 /** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
-/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $channel */
+/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $subject */
 // View to Viewable
-$user->view($channel);
+$user->view($subject);
 
 // Compare Viewable
-$user->hasViewed($channel);
-$user->hasNotViewed($channel);
+$user->hasViewed($subject);
+$user->hasNotViewed($subject);
 
 // Get subscribed info
 $user->views()->count(); 
@@ -65,10 +65,10 @@ $user->views()->count();
 // with type
 $user->views()->withType(Subject::class)->count(); 
 
-// get subscribed channels
+// get subscribed subjects
 Subject::query()->whereViewedBy($user)->get();
 
-// get subscribed channels doesnt subscribed
+// get subscribed subjects doesnt subscribed
 Subject::query()->whereNotViewedBy($user)->get();
 ```
 
@@ -78,28 +78,48 @@ Subject::query()->whereNotViewedBy($user)->get();
 use Zing\LaravelEloquentView\Tests\Models\User;
 use Zing\LaravelEloquentView\Tests\Models\Subject;
 /** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
-/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $channel */
+/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $subject */
 // Compare Viewer
-$channel->isViewedBy($user); 
-$channel->isNotViewedBy($user);
+$subject->isViewedBy($user); 
+$subject->isNotViewedBy($user);
 // Get subscribers info
-$channel->viewers->each(function (User $user){
+$subject->viewers->each(function (User $user){
     echo $user->getKey();
 });
 
-$channels = Subject::query()->withCount('subscribers')->get();
-$channels->each(function (Subject $channel){
+$subjects = Subject::query()->withCount('subscribers')->get();
+$subjects->each(function (Subject $subject){
     // like uv
-    echo $channel->viewers()->count(); // 1100
-    echo $channel->viewers_count; // "1100"
-    echo $channel->viewersCount(); // 1100
-    echo $channel->viewersCountForHumans(); // "1.1K"
+    echo $subject->viewers()->count(); // 1100
+    echo $subject->viewers_count; // "1100"
+    echo $subject->viewersCount(); // 1100
+    echo $subject->viewersCountForHumans(); // "1.1K"
     // like pv
-    echo $channel->views()->count(); // 1100
-    echo $channel->views_count; // "1100"
-    echo $channel->viewsCount(); // 1100
-    echo $channel->viewsCountForHumans(); // "1.1K"
+    echo $subject->views()->count(); // 1100
+    echo $subject->views_count; // "1100"
+    echo $subject->viewsCount(); // 1100
+    echo $subject->viewsCountForHumans(); // "1.1K"
 });
+```
+
+## With Api Request
+
+```php
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Zing\LaravelEloquentView\Tests\Models\Subject;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class AuctionController extends Controller
+{
+    public function show($id, Request $request){
+        $subject = Subject::query()->findOrFail($id);
+        dispatch(function () use ($subject, $request) {
+            $subject->record($request);
+        })->afterResponse();
+        return new JsonResource($subject);
+    }
+}
 ```
 
 ## License

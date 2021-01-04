@@ -14,14 +14,14 @@ class ViewerTest extends TestCase
     public function testView(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
+        $subject = Subject::query()->create();
+        $user->view($subject);
         $this->assertDatabaseHas(
             View::query()->getModel()->getTable(),
             [
                 'user_id' => $user->getKey(),
-                'viewable_type' => $channel->getMorphClass(),
-                'viewable_id' => $channel->getKey(),
+                'viewable_type' => $subject->getMorphClass(),
+                'viewable_id' => $subject->getKey(),
             ]
         );
     }
@@ -29,8 +29,8 @@ class ViewerTest extends TestCase
     public function testViews(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
+        $subject = Subject::query()->create();
+        $user->view($subject);
         self::assertSame(1, $user->views()->count());
         self::assertSame(1, $user->views->count());
     }
@@ -38,18 +38,18 @@ class ViewerTest extends TestCase
     public function testHasViewed(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        self::assertFalse($user->hasViewed($channel));
-        $user->view($channel);
-        self::assertTrue($user->hasViewed($channel));
+        $subject = Subject::query()->create();
+        self::assertFalse($user->hasViewed($subject));
+        $user->view($subject);
+        self::assertTrue($user->hasViewed($subject));
     }
 
     public function testHasNotViewed(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        self::assertTrue($user->hasNotViewed($channel));
-        $user->view($channel);
-        self::assertFalse($user->hasNotViewed($channel));
+        $subject = Subject::query()->create();
+        self::assertTrue($user->hasNotViewed($subject));
+        $user->view($subject);
+        self::assertFalse($user->hasNotViewed($subject));
     }
 }

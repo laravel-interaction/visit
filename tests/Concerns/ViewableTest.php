@@ -14,35 +14,35 @@ class ViewableTest extends TestCase
     public function testViews(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
-        self::assertSame(1, $channel->views()->count());
-        self::assertSame(1, $channel->views->count());
+        $subject = Subject::query()->create();
+        $user->view($subject);
+        self::assertSame(1, $subject->views()->count());
+        self::assertSame(1, $subject->views->count());
     }
 
     public function testViewersCount(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        self::assertSame(0, $channel->viewersCount());
-        $user->view($channel);
-        $channel->loadViewersCount();
-        self::assertSame(1, $channel->viewersCount());
-        $user->view($channel);
-        $channel->loadViewersCount();
-        self::assertSame(1, $channel->viewersCount());
+        $subject = Subject::query()->create();
+        self::assertSame(0, $subject->viewersCount());
+        $user->view($subject);
+        $subject->loadViewersCount();
+        self::assertSame(1, $subject->viewersCount());
+        $user->view($subject);
+        $subject->loadViewersCount();
+        self::assertSame(1, $subject->viewersCount());
     }
 
     public function testViewsCount(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
-        self::assertSame(1, $channel->viewsCount());
-        $user->view($channel);
-        $channel->loadCount('views');
-        self::assertSame(2, $channel->viewsCount());
-        self::assertSame('2', $channel->viewsCountForHumans());
+        $subject = Subject::query()->create();
+        $user->view($subject);
+        self::assertSame(1, $subject->viewsCount());
+        $user->view($subject);
+        $subject->loadCount('views');
+        self::assertSame(2, $subject->viewsCount());
+        self::assertSame('2', $subject->viewsCountForHumans());
     }
 
     public function data(): array
@@ -72,48 +72,48 @@ class ViewableTest extends TestCase
      */
     public function testViewersCountForHumans($actual, $onePrecision, $twoPrecision, $halfDown): void
     {
-        $channel = Mockery::mock(Subject::class);
-        $channel->shouldReceive('viewersCountForHumans')->passthru();
-        $channel->shouldReceive('viewersCount')->andReturn($actual);
-        self::assertSame($onePrecision, $channel->viewersCountForHumans());
-        self::assertSame($twoPrecision, $channel->viewersCountForHumans(2));
-        self::assertSame($halfDown, $channel->viewersCountForHumans(2, PHP_ROUND_HALF_DOWN));
+        $legacyMock = Mockery::mock(Subject::class);
+        $legacyMock->shouldReceive('viewersCountForHumans')->passthru();
+        $legacyMock->shouldReceive('viewersCount')->andReturn($actual);
+        self::assertSame($onePrecision, $legacyMock->viewersCountForHumans());
+        self::assertSame($twoPrecision, $legacyMock->viewersCountForHumans(2));
+        self::assertSame($halfDown, $legacyMock->viewersCountForHumans(2, PHP_ROUND_HALF_DOWN));
     }
 
     public function testIsViewedBy(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        self::assertFalse($channel->isViewedBy($channel));
-        $user->view($channel);
-        self::assertTrue($channel->isViewedBy($user));
-        $channel->load('viewers');
+        $subject = Subject::query()->create();
+        self::assertFalse($subject->isViewedBy($subject));
+        $user->view($subject);
+        self::assertTrue($subject->isViewedBy($user));
+        $subject->load('viewers');
     }
 
     public function testIsNotViewedBy(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        self::assertTrue($channel->isNotViewedBy($channel));
-        $user->view($channel);
-        self::assertFalse($channel->isNotViewedBy($user));
-        $channel->load('viewers');
+        $subject = Subject::query()->create();
+        self::assertTrue($subject->isNotViewedBy($subject));
+        $user->view($subject);
+        self::assertFalse($subject->isNotViewedBy($user));
+        $subject->load('viewers');
     }
 
     public function testViewers(): void
     {
         $user = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
-        self::assertSame(1, $channel->viewers()->count());
+        $subject = Subject::query()->create();
+        $user->view($subject);
+        self::assertSame(1, $subject->viewers()->count());
     }
 
     public function testScopeWhereViewedBy(): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
+        $subject = Subject::query()->create();
+        $user->view($subject);
         self::assertSame(1, Subject::query()->whereViewedBy($user)->count());
         self::assertSame(0, Subject::query()->whereViewedBy($other)->count());
     }
@@ -122,9 +122,27 @@ class ViewableTest extends TestCase
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Subject::query()->create();
-        $user->view($channel);
+        $subject = Subject::query()->create();
+        $user->view($subject);
         self::assertSame(0, Subject::query()->whereNotViewedBy($user)->count());
         self::assertSame(1, Subject::query()->whereNotViewedBy($other)->count());
+    }
+
+    public function testRecord(): void
+    {
+        $subject = Subject::query()->create();
+        $subject->record(request());
+        self::assertSame(1, $subject->viewsCount());
+        $user = User::query()->create();
+        request()->setUserResolver(
+            function () use ($user) {
+                return $user;
+            }
+        );
+        $subject->record(request());
+        $subject->loadCount('views');
+        self::assertSame(1, $subject->viewersCount());
+        self::assertSame(2, $subject->viewsCount());
+        self::assertTrue($subject->isViewedBy($user));
     }
 }
