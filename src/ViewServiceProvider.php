@@ -44,7 +44,7 @@ class ViewServiceProvider extends ServiceProvider
         return __DIR__ . '/../migrations';
     }
 
-    private function shouldLoadMigrations()
+    private function shouldLoadMigrations(): bool
     {
         return config('eloquent-view.load_migrations');
     }
