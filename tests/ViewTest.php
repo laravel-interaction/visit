@@ -12,17 +12,17 @@ use Zing\LaravelEloquentView\View;
 class ViewTest extends TestCase
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelEloquentView\Tests\Models\User
+     * @var \Zing\LaravelEloquentView\Tests\Models\User
      */
     protected $user;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelEloquentView\Tests\Models\Subject
+     * @var \Zing\LaravelEloquentView\Tests\Models\Subject
      */
     protected $subject;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\Zing\LaravelEloquentView\View|null
+     * @var \Zing\LaravelEloquentView\View
      */
     protected $view;
 
@@ -33,7 +33,7 @@ class ViewTest extends TestCase
         $this->user = User::query()->create();
         $this->subject = Subject::query()->create();
         $this->user->view($this->subject);
-        $this->view = View::query()->first();
+        $this->view = View::query()->firstOrFail();
     }
 
     public function testViewTimestamp(): void
