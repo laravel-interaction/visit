@@ -122,6 +122,12 @@ class AuctionController extends Controller
 }
 ```
 
+### Events
+
+| Event | Fired |
+| --- | --- |
+| `Zing\LaravelEloquentView\Events\Viewed` | When an object get viewed. |
+
 ## License
 
-Laravel View is an open-sourced software licensed under the [MIT license](LICENSE).
+Laravel Eloquent View is an open-sourced software licensed under the [MIT license](LICENSE).
