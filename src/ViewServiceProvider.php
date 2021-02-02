@@ -46,6 +46,6 @@ class ViewServiceProvider extends ServiceProvider
 
     private function shouldLoadMigrations(): bool
     {
-        return config('eloquent-view.load_migrations');
+        return (bool) config('eloquent-view.load_migrations');
     }
 }
