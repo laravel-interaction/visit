@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Zing\LaravelEloquentView\Events\Viewed;
 
 /**
  * @property \Illuminate\Database\Eloquent\Model $user
@@ -21,6 +22,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class View extends MorphPivot
 {
     public $incrementing = true;
+
+    protected $dispatchesEvents = [
+        'created' => Viewed::class,
+    ];
 
     public function getTable()
     {
