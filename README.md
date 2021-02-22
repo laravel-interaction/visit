@@ -3,13 +3,13 @@
 User view behaviour for Laravel.
 
 <p align="center">
-<a href="https://github.com/zingimmick/zing/laravel-eloquent-view/actions"><img src="https://github.com/zingimmick/zing/laravel-eloquent-view/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://codecov.io/gh/zingimmick/zing/laravel-eloquent-view"><img src="https://codecov.io/gh/zingimmick/zing/laravel-eloquent-view/branch/master/graph/badge.svg" alt="Code Coverage" /></a>
-<a href="https://packagist.org/packages/zing/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/zing/laravel-eloquent-view/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/zing/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/zing/laravel-eloquent-view/downloads" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/zing/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/zing/laravel-eloquent-view/v/unstable.svg" alt="Latest Unstable Version"></a>
-<a href="https://packagist.org/packages/zing/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/zing/laravel-eloquent-view/license" alt="License"></a>
-<a href="https://codeclimate.com/github/zingimmick/zing/laravel-eloquent-view/maintainability"><img src="https://api.codeclimate.com/v1/badges/fecfe975a2ed45335e1c/maintainability" alt="Code Climate" /></a>
+<a href="https://github.com/zingimmick/laravel-eloquent-view/actions"><img src="https://github.com/zingimmick/laravel-eloquent-view/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://codecov.io/gh/zingimmick/laravel-eloquent-view"><img src="https://codecov.io/gh/zingimmick/laravel-eloquent-view/branch/master/graph/badge.svg" alt="Code Coverage" /></a>
+<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/v/unstable.svg" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/license" alt="License"></a>
+<a href="https://codeclimate.com/github/zingimmick/laravel-eloquent-view/maintainability"><img src="https://api.codeclimate.com/v1/badges/fecfe975a2ed45335e1c/maintainability" alt="Code Climate" /></a>
 </p>
 
 > **Requires [PHP 7.2.0+](https://php.net/releases/)**
