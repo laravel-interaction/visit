@@ -6,9 +6,10 @@ namespace Zing\LaravelEloquentView\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use LaravelInteraction\Support\Interaction;
 use function is_a;
 
@@ -20,6 +21,7 @@ use function is_a;
  *
  * @method static static|\Illuminate\Database\Eloquent\Builder whereViewedBy(\Illuminate\Database\Eloquent\Model $user)
  * @method static static|\Illuminate\Database\Eloquent\Builder whereNotViewedBy(\Illuminate\Database\Eloquent\Model $user)
+ * @method static static|\Illuminate\Database\Eloquent\Builder withViewersCount($constraints = null)
  */
 trait Viewable
 {
@@ -56,16 +58,21 @@ trait Viewable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function viewers(): BelongsToMany
+    public function viewers(): MorphToMany
     {
-        return $this->morphToMany(
-            config('eloquent-view.models.user'),
-            'viewable',
-            config('eloquent-view.models.view'),
-            null,
-            config('eloquent-view.column_names.user_foreign_key')
+        return tap(
+            $this->morphToMany(
+                config('eloquent-view.models.user'),
+                'viewable',
+                config('eloquent-view.models.view'),
+                null,
+                config('eloquent-view.column_names.user_foreign_key')
+            ),
+            static function (MorphToMany $relation) {
+                $relation->distinct($relation->getRelated()->qualifyColumn($relation->getRelatedKeyName()));
+            }
         )->withTimestamps();
     }
 
@@ -85,15 +92,15 @@ trait Viewable
         return Interaction::numberForHumans($this->viewsCount(), $precision, $mode, $divisors ?? config('eloquent-view.divisors'));
     }
 
-    public function loadViewersCount()
+    public function loadViewersCount($constraints = null)
     {
-        $view = app(config('eloquent-view.models.view'));
-        $column = $view->qualifyColumn(config('eloquent-view.column_names.user_foreign_key'));
-        if (method_exists($this, 'loadAggregate')) {
-            $this->loadAggregate('views as viewers_count', "COUNT(DISTINCT('{$column}'))");
-        } else {
-            $this->viewers_count = $this->views()->selectRaw("COUNT(DISTINCT('{$column}')) as viewers_count")->value('viewers_count');
-        }
+        $this->loadCount(
+            [
+                'viewers' => function ($query) use ($constraints) {
+                    return $this->selectDistinctViewerCount($query, $constraints);
+                },
+            ]
+        );
 
         return $this;
     }
@@ -139,5 +146,27 @@ trait Viewable
         $view = $this->views()->make();
         $view->{config('eloquent-view.column_names.user_foreign_key')} = optional($request->user())->getKey();
         $view->save();
+    }
+
+    public function scopeWithViewersCount(Builder $query, $constraints = null): Builder
+    {
+        return $query->withCount(
+            [
+                'viewers' => function ($query) use ($constraints) {
+                    return $this->selectDistinctViewerCount($query, $constraints);
+                },
+            ]
+        );
+    }
+
+    protected function selectDistinctViewerCount(Builder $query, $constraints = null): Builder
+    {
+        if ($constraints !== null) {
+            $query = $constraints($query);
+        }
+
+        $column = $query->getModel()->getQualifiedKeyName();
+
+        return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
     }
 }

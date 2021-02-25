@@ -59,16 +59,16 @@ $user->view($subject);
 $user->hasViewed($subject);
 $user->hasNotViewed($subject);
 
-// Get subscribed info
+// Get viewed info
 $user->views()->count(); 
 
 // with type
 $user->views()->withType(Subject::class)->count(); 
 
-// get subscribed subjects
+// get viewed subjects
 Subject::query()->whereViewedBy($user)->get();
 
-// get subscribed subjects doesnt subscribed
+// get subjects doesnt viewed
 Subject::query()->whereNotViewedBy($user)->get();
 ```
 
@@ -82,12 +82,12 @@ use Zing\LaravelEloquentView\Tests\Models\Subject;
 // Compare Viewer
 $subject->isViewedBy($user); 
 $subject->isNotViewedBy($user);
-// Get subscribers info
+// Get viewers info
 $subject->viewers->each(function (User $user){
     echo $user->getKey();
 });
 
-$subjects = Subject::query()->withCount('subscribers')->get();
+$subjects = Subject::query()->withViewersCount()->get();
 $subjects->each(function (Subject $subject){
     // like uv
     echo $subject->viewers()->count(); // 1100
@@ -100,6 +100,9 @@ $subjects->each(function (Subject $subject){
     echo $subject->viewsCount(); // 1100
     echo $subject->viewsCountForHumans(); // "1.1K"
 });
+$subjects = Subject::query()->withViewersCount(function ($query){
+    return $query->whereKey(1);
+})->get();
 ```
 
 ## With Api Request
