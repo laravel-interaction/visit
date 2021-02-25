@@ -21,6 +21,7 @@ class TestCase extends BaseTestCase
             'users',
             function (Blueprint $table): void {
                 $table->bigIncrements('id');
+                $table->string('name')->default('');
                 $table->timestamps();
             }
         );

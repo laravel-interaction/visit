@@ -30,6 +30,49 @@ class ViewableTest extends TestCase
         $user->view($subject);
         $subject->loadViewersCount();
         self::assertSame(1, $subject->viewersCount());
+        $user->view($subject);
+        self::assertSame(1, $subject->viewers()->count());
+        self::assertSame(1, $subject->viewers->count());
+        $paginate = $subject->viewers()->paginate();
+        self::assertSame(1, $paginate->total());
+        self::assertCount(1, $paginate->items());
+        $subject->loadViewersCount(
+            function ($query) use ($user) {
+                return $query->whereKeyNot($user->getKey());
+            }
+        );
+        self::assertSame(0, $subject->viewersCount());
+        $user2 = User::query()->create();
+        $user2->view($subject);
+
+        $subject->loadViewersCount();
+        self::assertSame(2, $subject->viewersCount());
+        self::assertSame(2, $subject->viewers()->count());
+        $subject->load('viewers');
+        self::assertSame(2, $subject->viewers->count());
+        $paginate = $subject->viewers()->paginate();
+        self::assertSame(2, $paginate->total());
+        self::assertCount(2, $paginate->items());
+    }
+
+    public function testWithViewersCount(): void
+    {
+        $user = User::query()->create();
+        $subject = Subject::query()->create();
+        self::assertSame(0, $subject->viewersCount());
+        $user->view($subject);
+        $subject = Subject::query()->withViewersCount()->find($subject->getKey());
+        self::assertSame(1, $subject->viewersCount());
+        $user->view($subject);
+        $subject = Subject::query()->withViewersCount()->find($subject->getKey());
+        self::assertSame(1, $subject->viewersCount());
+        $subject = Subject::query()->withViewersCount(
+            function ($query) use ($user) {
+                return $query->whereKeyNot($user->getKey());
+            }
+        )->find($subject->getKey());
+
+        self::assertSame(0, $subject->viewersCount());
     }
 
     public function testViewsCount(): void
@@ -49,7 +92,7 @@ class ViewableTest extends TestCase
         $user = User::query()->create();
         $subject = Subject::query()->create();
         $user->view($subject);
-        self::assertSame('1', $subject->viewsCountForHumans());
+        self::assertSame('1', $subject->viewersCountForHumans());
     }
 
     public function testIsViewedBy(): void
@@ -60,6 +103,7 @@ class ViewableTest extends TestCase
         $user->view($subject);
         self::assertTrue($subject->isViewedBy($user));
         $subject->load('viewers');
+        self::assertTrue($subject->isViewedBy($user));
     }
 
     public function testIsNotViewedBy(): void
@@ -77,7 +121,8 @@ class ViewableTest extends TestCase
         $user = User::query()->create();
         $subject = Subject::query()->create();
         $user->view($subject);
-        self::assertSame(1, $subject->viewers()->count());
+        $user->view($subject);
+        self::assertSame(1, $subject->viewers->count());
     }
 
     public function testScopeWhereViewedBy(): void
