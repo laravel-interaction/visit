@@ -73,7 +73,7 @@ trait Viewable
             static function (MorphToMany $relation) {
                 $relation->distinct($relation->getRelated()->qualifyColumn($relation->getRelatedKeyName()));
             }
-        )->withTimestamps();
+        );
     }
 
     public function viewsCount(): int
