@@ -33,14 +33,13 @@ class ViewableTest extends TestCase
         $user->view($subject);
         self::assertSame(1, $subject->viewers()->count());
         self::assertSame(1, $subject->viewers->count());
-        $paginate = $subject->viewers()->paginate();
+        $paginate = $subject->viewers()
+            ->paginate();
         self::assertSame(1, $paginate->total());
         self::assertCount(1, $paginate->items());
-        $subject->loadViewersCount(
-            function ($query) use ($user) {
-                return $query->whereKeyNot($user->getKey());
-            }
-        );
+        $subject->loadViewersCount(function ($query) use ($user) {
+            return $query->whereKeyNot($user->getKey());
+        });
         self::assertSame(0, $subject->viewersCount());
         $user2 = User::query()->create();
         $user2->view($subject);
@@ -50,7 +49,8 @@ class ViewableTest extends TestCase
         self::assertSame(2, $subject->viewers()->count());
         $subject->load('viewers');
         self::assertSame(2, $subject->viewers->count());
-        $paginate = $subject->viewers()->paginate();
+        $paginate = $subject->viewers()
+            ->paginate();
         self::assertSame(2, $paginate->total());
         self::assertCount(2, $paginate->items());
     }
@@ -151,11 +151,10 @@ class ViewableTest extends TestCase
         $subject->record(request());
         self::assertSame(1, $subject->viewsCount());
         $user = User::query()->create();
-        request()->setUserResolver(
-            function () use ($user) {
+        request()
+            ->setUserResolver(function () use ($user) {
                 return $user;
-            }
-        );
+            });
         $subject->record(request());
         $subject->loadCount('views');
         self::assertSame(1, $subject->viewersCount());

@@ -35,13 +35,15 @@ trait Viewable
         if (! is_a($user, config('eloquent-view.models.user'))) {
             return false;
         }
+        $viewersThisRelationLoaded = $this->relationLoaded('viewers');
 
-        if ($this->relationLoaded('viewers')) {
+        if ($viewersThisRelationLoaded) {
             return $this->viewers->contains($user);
         }
 
         return ($this->relationLoaded('views') ? $this->views : $this->views())
-            ->where(config('eloquent-view.column_names.user_foreign_key'), $user->getKey())->count() > 0;
+            ->where(config('eloquent-view.column_names.user_foreign_key'), $user->getKey())
+            ->count() > 0;
     }
 
     public function isNotViewedBy(Model $user): bool
@@ -89,7 +91,12 @@ trait Viewable
 
     public function viewsCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHumans($this->viewsCount(), $precision, $mode, $divisors ?? config('eloquent-view.divisors'));
+        return Interaction::numberForHumans(
+            $this->viewsCount(),
+            $precision,
+            $mode,
+            $divisors ?? config('eloquent-view.divisors')
+        );
     }
 
     public function loadViewersCount($constraints = null)
@@ -118,7 +125,12 @@ trait Viewable
 
     public function viewersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHumans($this->viewersCount(), $precision, $mode, $divisors ?? config('eloquent-view.divisors'));
+        return Interaction::numberForHumans(
+            $this->viewersCount(),
+            $precision,
+            $mode,
+            $divisors ?? config('eloquent-view.divisors')
+        );
     }
 
     public function scopeWhereViewedBy(Builder $query, Model $user): Builder
@@ -143,8 +155,10 @@ trait Viewable
 
     public function record(Request $request): void
     {
-        $view = $this->views()->make();
-        $view->{config('eloquent-view.column_names.user_foreign_key')} = optional($request->user())->getKey();
+        $view = $this->views()
+            ->make();
+        $view->{config('eloquent-view.column_names.user_foreign_key')} = optional($request->user())
+            ->getKey();
         $view->save();
     }
 
@@ -165,7 +179,8 @@ trait Viewable
             $query = $constraints($query);
         }
 
-        $column = $query->getModel()->getQualifiedKeyName();
+        $column = $query->getModel()
+            ->getQualifiedKeyName();
 
         return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
     }

@@ -19,7 +19,8 @@ trait Viewer
      */
     public function view(Model $object): void
     {
-        $this->viewedItems(get_class($object))->attach($object->getKey());
+        $this->viewedItems(get_class($object))
+            ->attach($object->getKey());
     }
 
     /**
@@ -45,7 +46,11 @@ trait Viewer
      */
     public function views(): HasMany
     {
-        return $this->hasMany(config('eloquent-view.models.view'), config('eloquent-view.column_names.user_foreign_key'), $this->getKeyName());
+        return $this->hasMany(
+            config('eloquent-view.models.view'),
+            config('eloquent-view.column_names.user_foreign_key'),
+            $this->getKeyName()
+        );
     }
 
     /**
@@ -55,6 +60,13 @@ trait Viewer
      */
     protected function viewedItems(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'viewable', config('eloquent-view.models.view'), config('eloquent-view.column_names.user_foreign_key'), 'viewable_id')->withTimestamps();
+        return $this->morphedByMany(
+            $class,
+            'viewable',
+            config('eloquent-view.models.view'),
+            config('eloquent-view.column_names.user_foreign_key'),
+            'viewable_id'
+        )
+            ->withTimestamps();
     }
 }
