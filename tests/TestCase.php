@@ -21,7 +21,8 @@ class TestCase extends BaseTestCase
             'users',
             function (Blueprint $table): void {
                 $table->bigIncrements('id');
-                $table->string('name')->default('');
+                $table->string('name')
+                    ->default('');
                 $table->timestamps();
             }
         );
@@ -36,18 +37,14 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        config(
-            [
-                'database.default' => 'testing',
-                'eloquent-view.models.user' => User::class,
-            ]
-        );
+        config([
+            'database.default' => 'testing',
+            'eloquent-view.models.user' => User::class,
+        ]);
     }
 
     protected function getPackageProviders($app): array
     {
-        return [
-            ViewServiceProvider::class,
-        ];
+        return [ViewServiceProvider::class];
     }
 }

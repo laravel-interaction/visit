@@ -45,7 +45,10 @@ class View extends MorphPivot
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('eloquent-view.models.user'), config('eloquent-view.column_names.user_foreign_key'));
+        return $this->belongsTo(
+            config('eloquent-view.models.user'),
+            config('eloquent-view.column_names.user_foreign_key')
+        );
     }
 
     /**
