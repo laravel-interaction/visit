@@ -35,6 +35,7 @@ trait Viewable
         if (! is_a($user, config('eloquent-view.models.user'))) {
             return false;
         }
+
         $viewersThisRelationLoaded = $this->relationLoaded('viewers');
 
         if ($viewersThisRelationLoaded) {
