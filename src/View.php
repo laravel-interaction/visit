@@ -21,8 +21,14 @@ use Zing\LaravelEloquentView\Events\Viewed;
  */
 class View extends MorphPivot
 {
+    /**
+     * @var bool
+     */
     public $incrementing = true;
 
+    /**
+     * @var array<string, class-string<\Zing\LaravelEloquentView\Events\Viewed>>
+     */
     protected $dispatchesEvents = [
         'created' => Viewed::class,
     ];
@@ -32,17 +38,11 @@ class View extends MorphPivot
         return config('eloquent-view.table_names.views') ?: parent::getTable();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
     public function viewable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(
@@ -51,9 +51,6 @@ class View extends MorphPivot
         );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function viewer(): BelongsTo
     {
         return $this->user();
@@ -69,12 +66,6 @@ class View extends MorphPivot
         return $object->is($this->viewable);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $type
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithType(Builder $query, string $type): Builder
     {
         return $query->where('viewable_type', app($type)->getMorphClass());
