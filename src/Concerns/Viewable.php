@@ -25,11 +25,6 @@ use function is_a;
  */
 trait Viewable
 {
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $user
-     *
-     * @return bool
-     */
     public function isViewedBy(Model $user): bool
     {
         if (! is_a($user, config('eloquent-view.models.user'))) {
@@ -52,17 +47,11 @@ trait Viewable
         return ! $this->isViewedBy($user);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
     public function views(): MorphMany
     {
         return $this->morphMany(config('eloquent-view.models.view'), 'viewable');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function viewers(): MorphToMany
     {
         return tap(
@@ -90,7 +79,7 @@ trait Viewable
         return (int) $this->views_count;
     }
 
-    public function viewsCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function viewsCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->viewsCount(),
@@ -124,7 +113,7 @@ trait Viewable
         return (int) $this->viewers_count;
     }
 
-    public function viewersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function viewersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->viewersCount(),
@@ -138,7 +127,7 @@ trait Viewable
     {
         return $query->whereHas(
             'viewers',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -148,7 +137,7 @@ trait Viewable
     {
         return $query->whereDoesntHave(
             'viewers',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -183,6 +172,6 @@ trait Viewable
         $column = $query->getModel()
             ->getQualifiedKeyName();
 
-        return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
+        return $query->select(DB::raw(sprintf('COUNT(DISTINCT(%s))', $column)));
     }
 }

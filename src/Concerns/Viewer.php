@@ -14,20 +14,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 trait Viewer
 {
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     */
     public function view(Model $object): void
     {
         $this->viewedItems(get_class($object))
             ->attach($object->getKey());
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function hasViewed(Model $object): bool
     {
         return ($this->relationLoaded('views') ? $this->views : $this->views())
@@ -41,9 +33,6 @@ trait Viewer
         return ! $this->hasViewed($object);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function views(): HasMany
     {
         return $this->hasMany(
@@ -53,11 +42,6 @@ trait Viewer
         );
     }
 
-    /**
-     * @param string $class
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     protected function viewedItems(string $class): MorphToMany
     {
         return $this->morphedByMany(
