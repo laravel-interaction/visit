@@ -14,6 +14,5 @@ use Zing\LaravelEloquentView\Concerns\Viewer;
 class User extends Model implements Authenticatable
 {
     use \Illuminate\Auth\Authenticatable;
-
     use Viewer;
 }
