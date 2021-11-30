@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-use Zing\LaravelEloquentView\View;
+use LaravelInteraction\Visit\Visit;
 
 return [
     'load_migrations' => true,
     'models' => [
         'user' => \App\User::class,
-        'view' => View::class,
+        'visit' => Visit::class,
     ],
     'table_names' => [
-        'views' => 'views',
+        'visits' => 'visits',
     ],
     'column_names' => [
         'user_foreign_key' => 'user_id',

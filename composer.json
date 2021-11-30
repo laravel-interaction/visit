@@ -1,7 +1,7 @@
 {
-    "name": "zing/laravel-eloquent-view",
-    "description": "User view behaviour for Laravel eloquent.",
-    "keywords": ["laravel", "view"],
+    "name": "laravel-interaction/visit",
+    "description": "User visit behaviour for Laravel.",
+    "keywords": ["laravel", "visit"],
     "license": "MIT",
     "authors": [
         {
@@ -17,28 +17,27 @@
         "php": "^7.2 || ^8.0",
         "illuminate/database": "^6.3 || ^7.0 || ^8.0",
         "illuminate/support": "^6.0 || ^7.0 || ^8.0",
-        "laravel-interaction/support": "^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6 || ^1.0"
+        "laravel-interaction/support": "^1.0"
     },
     "require-dev": {
         "mockery/mockery": "~1.3.3 || ^1.4.2",
         "orchestra/testbench": "^4.0 || ^5.0 || ^6.0",
-        "phpunit/phpunit": "^8.0,<8.5.12 || ^9.3.3 || ^8.0",
-        "zing/coding-standard": "^4.0"
+        "phpunit/phpunit": "^8.0,<8.5.12 || ^9.3.3"
     },
     "autoload": {
         "psr-4": {
-            "Zing\\LaravelEloquentView\\": "src"
+            "LaravelInteraction\\Visit\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zing\\LaravelEloquentView\\Tests\\": "tests"
+            "LaravelInteraction\\Visit\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Zing\\LaravelEloquentView\\ViewServiceProvider"
+                "LaravelInteraction\\Visit\\VisitServiceProvider"
             ]
         }
     },

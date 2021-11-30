@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelEloquentView\Events;
+namespace LaravelInteraction\Visit\Events;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Viewed
+class Visited
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
-    public $view;
+    public $visit;
 
-    public function __construct(Model $view)
+    public function __construct(Model $visit)
     {
-        $this->view = $view;
+        $this->visit = $visit;
     }
 }

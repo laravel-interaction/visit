@@ -1,106 +1,103 @@
-# Laravel Eloquent View
+# Laravel Visit
 
-User view behaviour for Laravel.
+User visit behaviour for Laravel.
 
 <p align="center">
-<a href="https://github.com/zingimmick/laravel-eloquent-view/actions"><img src="https://github.com/zingimmick/laravel-eloquent-view/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://codecov.io/gh/zingimmick/laravel-eloquent-view"><img src="https://codecov.io/gh/zingimmick/laravel-eloquent-view/branch/master/graph/badge.svg" alt="Code Coverage" /></a>
-<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/downloads" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/v/unstable.svg" alt="Latest Unstable Version"></a>
-<a href="https://packagist.org/packages/zing/laravel-eloquent-view"><img src="https://poser.pugx.org/zing/laravel-eloquent-view/license" alt="License"></a>
-<a href="https://codeclimate.com/github/zingimmick/laravel-eloquent-view/maintainability"><img src="https://api.codeclimate.com/v1/badges/fecfe975a2ed45335e1c/maintainability" alt="Code Climate" /></a>
+<a href="https://packagist.org/packages/laravel-interaction/visit"><img src="https://poser.pugx.org/laravel-interaction/visit/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel-interaction/visit"><img src="https://poser.pugx.org/laravel-interaction/visit/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel-interaction/visit"><img src="https://poser.pugx.org/laravel-interaction/visit/v/unstable.svg" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/laravel-interaction/visit"><img src="https://poser.pugx.org/laravel-interaction/visit/license" alt="License"></a>
 </p>
 
 > **Requires [PHP 7.2.0+](https://php.net/releases/)**
 
-Require Laravel Eloquent View using [Composer](https://getcomposer.org):
+Require Laravel Visit using [Composer](https://getcomposer.org):
 
 ```bash
-composer require zing/laravel-eloquent-view
+composer require laravel-interaction/visit
 ```
 
 ## Usage
 
-### Setup Viewer
+### Setup Visitor
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelEloquentView\Concerns\Viewer;
+use LaravelInteraction\Visit\Concerns\Visitor;
 
 class User extends Model
 {
-    use Viewer;
+    use Visitor;
 }
 ```
 
-### Setup Viewable
+### Setup Visitable
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelEloquentView\Concerns\Viewable;
+use LaravelInteraction\Visit\Concerns\Visitable;
 
 class Subject extends Model
 {
-    use Viewable;
+    use Visitable;
 }
 ```
 
-### Viewer
+### Visitor
 
 ```php
-use Zing\LaravelEloquentView\Tests\Models\Subject;
-/** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
-/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $subject */
-// View to Viewable
-$user->view($subject);
+use LaravelInteraction\Visit\Tests\Models\Subject;
+/** @var \LaravelInteraction\Visit\Tests\Models\User $user */
+/** @var \LaravelInteraction\Visit\Tests\Models\Subject $subject */
+// Visit to Visitable
+$user->visit($subject);
 
-// Compare Viewable
-$user->hasViewed($subject);
-$user->hasNotViewed($subject);
+// Compare Visitable
+$user->hasVisited($subject);
+$user->hasNotVisited($subject);
 
-// Get viewed info
-$user->views()->count(); 
+// Get visited info
+$user->visitVisitors()->count(); 
 
 // with type
-$user->views()->withType(Subject::class)->count(); 
+$user->visitVisitors()->withType(Subject::class)->count(); 
 
-// get viewed subjects
-Subject::query()->whereViewedBy($user)->get();
+// get visited subjects
+Subject::query()->whereVisitedBy($user)->get();
 
-// get subjects doesnt viewed
-Subject::query()->whereNotViewedBy($user)->get();
+// get subjects doesnt visited
+Subject::query()->whereNotVisitedBy($user)->get();
 ```
 
-### Viewable
+### Visitable
 
 ```php
-use Zing\LaravelEloquentView\Tests\Models\User;
-use Zing\LaravelEloquentView\Tests\Models\Subject;
-/** @var \Zing\LaravelEloquentView\Tests\Models\User $user */
-/** @var \Zing\LaravelEloquentView\Tests\Models\Subject $subject */
-// Compare Viewer
-$subject->isViewedBy($user); 
-$subject->isNotViewedBy($user);
-// Get viewers info
-$subject->viewers->each(function (User $user){
+use LaravelInteraction\Visit\Tests\Models\User;
+use LaravelInteraction\Visit\Tests\Models\Subject;
+/** @var \LaravelInteraction\Visit\Tests\Models\User $user */
+/** @var \LaravelInteraction\Visit\Tests\Models\Subject $subject */
+// Compare Visitor
+$subject->isVisitedBy($user); 
+$subject->isNotVisitedBy($user);
+// Get visitors info
+$subject->visitors->each(function (User $user){
     echo $user->getKey();
 });
 
-$subjects = Subject::query()->withViewersCount()->get();
+$subjects = Subject::query()->withVisitorsCount()->get();
 $subjects->each(function (Subject $subject){
     // like uv
-    echo $subject->viewers()->count(); // 1100
-    echo $subject->viewers_count; // "1100"
-    echo $subject->viewersCount(); // 1100
-    echo $subject->viewersCountForHumans(); // "1.1K"
+    echo $subject->visitors()->count(); // 1100
+    echo $subject->visitors_count; // "1100"
+    echo $subject->visitorsCount(); // 1100
+    echo $subject->visitorsCountForHumans(); // "1.1K"
     // like pv
-    echo $subject->views()->count(); // 1100
-    echo $subject->views_count; // "1100"
-    echo $subject->viewsCount(); // 1100
-    echo $subject->viewsCountForHumans(); // "1.1K"
+    echo $subject->visitableVisits()->count(); // 1100
+    echo $subject->visits_count; // "1100"
+    echo $subject->visitsCount(); // 1100
+    echo $subject->visitsCountForHumans(); // "1.1K"
 });
-$subjects = Subject::query()->withViewersCount(function ($query){
+$subjects = Subject::query()->withVisitorsCount(function ($query){
     return $query->whereKey(1);
 })->get();
 ```
@@ -110,7 +107,7 @@ $subjects = Subject::query()->withViewersCount(function ($query){
 ```php
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Zing\LaravelEloquentView\Tests\Models\Subject;
+use LaravelInteraction\Visit\Tests\Models\Subject;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuctionController extends Controller
@@ -129,8 +126,8 @@ class AuctionController extends Controller
 
 | Event | Fired |
 | --- | --- |
-| `Zing\LaravelEloquentView\Events\Viewed` | When an object get viewed. |
+| `LaravelInteraction\Visit\Events\Visited` | When an object get visited. |
 
 ## License
 
-Laravel Eloquent View is an open-sourced software licensed under the [MIT license](LICENSE).
+Laravel Eloquent Visit is an open-sourced software licensed under the [MIT license](LICENSE).

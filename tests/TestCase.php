@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelEloquentView\Tests;
+namespace LaravelInteraction\Visit\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use LaravelInteraction\Visit\Tests\Models\User;
+use LaravelInteraction\Visit\VisitServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Zing\LaravelEloquentView\Tests\Models\User;
-use Zing\LaravelEloquentView\ViewServiceProvider;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
@@ -39,12 +39,17 @@ class TestCase extends BaseTestCase
     {
         config([
             'database.default' => 'testing',
-            'eloquent-view.models.user' => User::class,
+            'visit.models.user' => User::class,
         ]);
     }
 
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     *
+     * @return array<class-string<\Illuminate\Support\ServiceProvider>>
+     */
     protected function getPackageProviders($app): array
     {
-        return [ViewServiceProvider::class];
+        return [VisitServiceProvider::class];
     }
 }

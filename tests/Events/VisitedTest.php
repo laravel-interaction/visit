@@ -2,23 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelEloquentView\Tests\Events;
+namespace LaravelInteraction\Visit\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Zing\LaravelEloquentView\Events\Viewed;
-use Zing\LaravelEloquentView\Tests\Models\Subject;
-use Zing\LaravelEloquentView\Tests\Models\User;
-use Zing\LaravelEloquentView\Tests\TestCase;
+use LaravelInteraction\Visit\Events\Visited;
+use LaravelInteraction\Visit\Tests\Models\Subject;
+use LaravelInteraction\Visit\Tests\Models\User;
+use LaravelInteraction\Visit\Tests\TestCase;
 
-class ViewedTest extends TestCase
+/**
+ * @internal
+ */
+final class VisitedTest extends TestCase
 {
     public function testSingle(): void
     {
         $user = User::query()->create();
         $subject = Subject::query()->create();
         Event::fake();
-        $user->view($subject);
-        Event::assertDispatchedTimes(Viewed::class);
+        $user->visit($subject);
+        Event::assertDispatchedTimes(Visited::class);
     }
 
     public function testTimes(): void
@@ -26,9 +29,9 @@ class ViewedTest extends TestCase
         $user = User::query()->create();
         $subject = Subject::query()->create();
         Event::fake();
-        $user->view($subject);
-        $user->view($subject);
-        Event::assertDispatchedTimes(Viewed::class, 2);
+        $user->visit($subject);
+        $user->visit($subject);
+        Event::assertDispatchedTimes(Visited::class, 2);
     }
 
     public function testWithAnonymous(): void
@@ -36,6 +39,6 @@ class ViewedTest extends TestCase
         $subject = Subject::query()->create();
         Event::fake();
         $subject->record(request());
-        Event::assertDispatchedTimes(Viewed::class);
+        Event::assertDispatchedTimes(Visited::class);
     }
 }

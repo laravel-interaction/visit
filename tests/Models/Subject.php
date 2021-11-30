@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelEloquentView\Tests\Models;
+namespace LaravelInteraction\Visit\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelEloquentView\Concerns\Viewable;
+use LaravelInteraction\Visit\Concerns\Visitable;
 
 /**
- * @method static \Zing\LaravelEloquentView\Tests\Models\Subject|\Illuminate\Database\Eloquent\Builder query()
+ * @method static \LaravelInteraction\Visit\Tests\Models\Subject|\Illuminate\Database\Eloquent\Builder query()
  */
 class Subject extends Model
 {
-    use Viewable;
+    use Visitable;
 }

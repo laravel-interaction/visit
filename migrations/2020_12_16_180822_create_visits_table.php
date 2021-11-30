@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateViewsTable extends Migration
+class CreateVisitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,13 @@ class CreateViewsTable extends Migration
     public function up(): void
     {
         Schema::create(
-            config('eloquent-view.table_names.views'),
+            config('visit.table_names.visits'),
             function (Blueprint $table): void {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger(config('eloquent-view.column_names.user_foreign_key'))->index()->nullable()->comment('user_id');
-                $table->morphs('viewable');
+                $table->unsignedBigInteger(config('visit.column_names.user_foreign_key'))->index()->nullable()->comment('user_id');
+                $table->morphs('visitable');
                 $table->timestamps();
-                $table->index([config('eloquent-view.column_names.user_foreign_key'), 'viewable_type', 'viewable_id']);
+                $table->index([config('visit.column_names.user_foreign_key'), 'visitable_type', 'visitable_id']);
             }
         );
     }
@@ -30,6 +30,6 @@ class CreateViewsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('eloquent-view.table_names.views'));
+        Schema::dropIfExists(config('visit.table_names.visits'));
     }
 }
