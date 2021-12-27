@@ -17,7 +17,10 @@ class CreateVisitsTable extends Migration
             config('visit.table_names.visits'),
             function (Blueprint $table): void {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger(config('visit.column_names.user_foreign_key'))->index()->nullable()->comment('user_id');
+                $table->unsignedBigInteger(config('visit.column_names.user_foreign_key'))
+                    ->index()
+                    ->nullable()
+                    ->comment('user_id');
                 $table->morphs('visitable');
                 $table->timestamps();
                 $table->index([config('visit.column_names.user_foreign_key'), 'visitable_type', 'visitable_id']);
