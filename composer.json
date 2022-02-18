@@ -44,24 +44,6 @@
             ]
         }
     },
-    "scripts": {
-        "lint:rector": "@fix:rector --dry-run",
-        "lint:ecs": "ecs check --ansi",
-        "fix:rector": "rector process --ansi",
-        "fix:ecs": "@lint:ecs --fix",
-        "test:phpunit": "phpunit --colors=always",
-        "lint": [
-            "@lint:rector",
-            "@lint:ecs"
-        ],
-        "fix": [
-            "@fix:rector",
-            "@fix:ecs"
-        ],
-        "test": [
-            "@test:phpunit"
-        ]
-    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
