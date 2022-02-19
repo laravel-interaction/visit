@@ -35,7 +35,7 @@ class Visit extends MorphPivot
         'created' => Visited::class,
     ];
 
-    public function getTable()
+    public function getTable(): string
     {
         return config('visit.table_names.visits') ?: parent::getTable();
     }
