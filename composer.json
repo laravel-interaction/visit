@@ -3,6 +3,11 @@
     "description": "User visit behaviour for Laravel.",
     "keywords": ["laravel", "visit"],
     "license": "MIT",
+    "homepage": "https://github.com/laravel-interaction/visit",
+    "support": {
+        "issues": "https://github.com/laravel-interaction/visit/issues",
+        "source": "https://github.com/laravel-interaction/visit"
+    },
     "authors": [
         {
             "name": "zingimmick",
