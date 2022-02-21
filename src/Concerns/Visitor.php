@@ -16,7 +16,7 @@ trait Visitor
 {
     public function visit(Model $object): void
     {
-        $this->visitedItems(get_class($object))
+        $this->visitedItems(\get_class($object))
             ->attach($object->getKey());
     }
 
