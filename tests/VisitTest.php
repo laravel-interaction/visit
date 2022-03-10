@@ -53,7 +53,7 @@ final class VisitTest extends TestCase
 
     public function testGetTable(): void
     {
-        self::assertSame(config('visit.table_names.visits'), $this->visit->getTable());
+        self::assertSame(config('visit.table_names.pivot'), $this->visit->getTable());
     }
 
     public function testVisitor(): void

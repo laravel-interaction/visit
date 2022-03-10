@@ -8,10 +8,10 @@ return [
     'load_migrations' => true,
     'models' => [
         'user' => \App\User::class,
-        'visit' => Visit::class,
+        'pivot' => Visit::class,
     ],
     'table_names' => [
-        'visits' => 'visits',
+        'pivot' => 'visits',
     ],
     'column_names' => [
         'user_foreign_key' => 'user_id',

@@ -35,11 +35,7 @@ trait Visitor
 
     public function visitVisitors(): HasMany
     {
-        return $this->hasMany(
-            config('visit.models.visit'),
-            config('visit.column_names.user_foreign_key'),
-            $this->getKeyName()
-        );
+        return $this->hasMany(config('visit.models.pivot'), config('visit.column_names.user_foreign_key'));
     }
 
     protected function visitedItems(string $class): MorphToMany
@@ -47,7 +43,7 @@ trait Visitor
         return $this->morphedByMany(
             $class,
             'visitable',
-            config('visit.models.visit'),
+            config('visit.models.pivot'),
             config('visit.column_names.user_foreign_key'),
             'visitable_id'
         )

@@ -49,7 +49,7 @@ trait Visitable
 
     public function visitableVisits(): MorphMany
     {
-        return $this->morphMany(config('visit.models.visit'), 'visitable');
+        return $this->morphMany(config('visit.models.pivot'), 'visitable');
     }
 
     public function visitors(): MorphToMany
@@ -58,7 +58,7 @@ trait Visitable
             $this->morphToMany(
                 config('visit.models.user'),
                 'visitable',
-                config('visit.models.visit'),
+                config('visit.models.pivot'),
                 null,
                 config('visit.column_names.user_foreign_key')
             ),

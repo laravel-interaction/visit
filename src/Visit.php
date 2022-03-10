@@ -37,7 +37,7 @@ class Visit extends MorphPivot
 
     public function getTable(): string
     {
-        return config('visit.table_names.visits') ?: parent::getTable();
+        return config('visit.table_names.pivot') ?: parent::getTable();
     }
 
     public function visitable(): MorphTo
