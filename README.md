@@ -9,12 +9,39 @@ User visit behaviour for Laravel.
 <a href="https://packagist.org/packages/laravel-interaction/visit"><img src="https://poser.pugx.org/laravel-interaction/visit/license" alt="License"></a>
 </p>
 
-> **Requires [PHP 7.3+](https://php.net/releases/)**
+## Introduction
 
-Require Laravel Visit using [Composer](https://getcomposer.org):
+It used to record the number of visits to the model(documentation/subject/question).
+
+![](https://img.shields.io/badge/%F0%9F%93%96-1.2k-green?style=social)
+
+## Installation
+
+### Requirements
+
+- [PHP 7.3+](https://php.net/releases/)
+- [Composer](https://getcomposer.org)
+- [Laravel 8.0+](https://laravel.com/docs/releases)
+
+### Instructions
+
+Require Laravel Visit using [Composer](https://getcomposer.org).
 
 ```bash
 composer require laravel-interaction/visit
+```
+
+Publish configuration and migrations
+
+```bash
+php artisan vendor:publish --tag=visit-config
+php artisan vendor:publish --tag=visit-migrations
+```
+
+Run database migrations.
+
+```bash
+php artisan migrate
 ```
 
 ## Usage
@@ -54,7 +81,8 @@ $user->visit($subject);
 
 // Compare Visitable
 $user->hasVisited($subject);
-$user->hasNotVisited($subject);
+$user->hasNot
+Visited($subject);
 
 // Get visited info
 $user->visitVisitors()->count(); 
