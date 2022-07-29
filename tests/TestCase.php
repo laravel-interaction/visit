@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         Schema::create(
             'users',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->string('name')
                     ->default('');
@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase
         );
         Schema::create(
             'subjects',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->timestamps();
             }

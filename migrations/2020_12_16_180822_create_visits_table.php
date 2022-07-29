@@ -15,7 +15,7 @@ class CreateVisitsTable extends Migration
     {
         Schema::create(
             config('visit.table_names.pivot'),
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('visit.column_names.user_foreign_key'))
                     ->index()
