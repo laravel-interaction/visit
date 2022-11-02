@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visited
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    public $visit;
-
-    public function __construct(Model $visit)
+    public function __construct(public Model $model)
     {
-        $this->visit = $visit;
     }
 }

@@ -40,9 +40,7 @@ final class VisitableTest extends TestCase
             ->paginate();
         self::assertSame(1, $paginate->total());
         self::assertCount(1, $paginate->items());
-        $subject->loadVisitorsCount(static function ($query) use ($user) {
-            return $query->whereKeyNot($user->getKey());
-        });
+        $subject->loadVisitorsCount(static fn ($query) => $query->whereKeyNot($user->getKey()));
         self::assertSame(0, $subject->visitorsCount());
         $user2 = User::query()->create();
         $user2->visit($subject);
@@ -70,9 +68,7 @@ final class VisitableTest extends TestCase
         $subject = Subject::query()->withVisitorsCount()->whereKey($subject->getKey())->firstOrFail();
         self::assertSame(1, $subject->visitorsCount());
         $subject = Subject::query()->withVisitorsCount(
-            static function ($query) use ($user) {
-                return $query->whereKeyNot($user->getKey());
-            }
+            static fn ($query) => $query->whereKeyNot($user->getKey())
         )->whereKey($subject->getKey())
             ->firstOrFail();
 
@@ -156,9 +152,7 @@ final class VisitableTest extends TestCase
         self::assertSame(1, $subject->visitsCount());
         $user = User::query()->create();
         request()
-            ->setUserResolver(static function () use ($user): \LaravelInteraction\Visit\Tests\Models\User {
-                return $user;
-            });
+            ->setUserResolver(static fn (): \LaravelInteraction\Visit\Tests\Models\User => $user);
         $subject->record(request());
         $subject->loadCount('visitableVisits');
         self::assertSame(1, $subject->visitorsCount());

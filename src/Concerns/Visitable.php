@@ -102,13 +102,9 @@ trait Visitable
      */
     public function loadVisitorsCount($constraints = null)
     {
-        $this->loadCount(
-            [
-                'visitors' => function ($query) use ($constraints) {
-                    return $this->selectDistinctVisitorCount($query, $constraints);
-                },
-            ]
-        );
+        $this->loadCount([
+                'visitors' => fn ($query) => $this->selectDistinctVisitorCount($query, $constraints),
+            ]);
 
         return $this;
     }
@@ -143,9 +139,7 @@ trait Visitable
     {
         return $query->whereHas(
             'visitors',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -153,9 +147,7 @@ trait Visitable
     {
         return $query->whereDoesntHave(
             'visitors',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -175,9 +167,7 @@ trait Visitable
     {
         return $query->withCount(
             [
-                'visitors' => function ($query) use ($constraints) {
-                    return $this->selectDistinctVisitorCount($query, $constraints);
-                },
+                'visitors' => fn ($query) => $this->selectDistinctVisitorCount($query, $constraints),
             ]
         );
     }

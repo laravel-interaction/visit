@@ -19,7 +19,7 @@ It used to record the number of visits to the model(documentation/subject/questi
 
 ### Requirements
 
-- [PHP 7.3+](https://php.net/releases/)
+- [PHP 8.0+](https://php.net/releases/)
 - [Composer](https://getcomposer.org)
 - [Laravel 8.0+](https://laravel.com/docs/releases)
 

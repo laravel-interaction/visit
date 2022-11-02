@@ -14,20 +14,11 @@ use LaravelInteraction\Visit\Visit;
  */
 final class VisitTest extends TestCase
 {
-    /**
-     * @var \LaravelInteraction\Visit\Tests\Models\User
-     */
-    private $user;
+    private \LaravelInteraction\Visit\Tests\Models\User $user;
 
-    /**
-     * @var \LaravelInteraction\Visit\Tests\Models\Subject
-     */
-    private $subject;
+    private \LaravelInteraction\Visit\Tests\Models\Subject $subject;
 
-    /**
-     * @var \LaravelInteraction\Visit\Visit
-     */
-    private $visit;
+    private \LaravelInteraction\Visit\Visit $visit;
 
     protected function setUp(): void
     {
