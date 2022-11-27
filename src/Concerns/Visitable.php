@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use LaravelInteraction\Support\Interaction;
 
-use function is_a;
-
 /**
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Visit\Visit[] $visitableVisits
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Visit\Concerns\Visitor[] $visitors
@@ -103,8 +101,8 @@ trait Visitable
     public function loadVisitorsCount($constraints = null)
     {
         $this->loadCount([
-                'visitors' => fn ($query) => $this->selectDistinctVisitorCount($query, $constraints),
-            ]);
+            'visitors' => fn ($query) => $this->selectDistinctVisitorCount($query, $constraints),
+        ]);
 
         return $this;
     }
