@@ -32,45 +32,45 @@ final class VisitTest extends TestCase
 
     public function testVisitTimestamp(): void
     {
-        self::assertInstanceOf(Carbon::class, $this->visit->created_at);
-        self::assertInstanceOf(Carbon::class, $this->visit->updated_at);
+        $this->assertInstanceOf(Carbon::class, $this->visit->created_at);
+        $this->assertInstanceOf(Carbon::class, $this->visit->updated_at);
     }
 
     public function testScopeWithType(): void
     {
-        self::assertSame(1, Visit::query()->withType(Subject::class)->count());
-        self::assertSame(0, Visit::query()->withType(User::class)->count());
+        $this->assertSame(1, Visit::query()->withType(Subject::class)->count());
+        $this->assertSame(0, Visit::query()->withType(User::class)->count());
     }
 
     public function testGetTable(): void
     {
-        self::assertSame(config('visit.table_names.pivot'), $this->visit->getTable());
+        $this->assertSame(config('visit.table_names.pivot'), $this->visit->getTable());
     }
 
     public function testVisitor(): void
     {
-        self::assertInstanceOf(User::class, $this->visit->visitor);
+        $this->assertInstanceOf(User::class, $this->visit->visitor);
     }
 
     public function testVisitable(): void
     {
-        self::assertInstanceOf(Subject::class, $this->visit->visitable);
+        $this->assertInstanceOf(Subject::class, $this->visit->visitable);
     }
 
     public function testUser(): void
     {
-        self::assertInstanceOf(User::class, $this->visit->user);
+        $this->assertInstanceOf(User::class, $this->visit->user);
     }
 
     public function testIsVisitedTo(): void
     {
-        self::assertTrue($this->visit->isVisitedTo($this->subject));
-        self::assertFalse($this->visit->isVisitedTo($this->user));
+        $this->assertTrue($this->visit->isVisitedTo($this->subject));
+        $this->assertFalse($this->visit->isVisitedTo($this->user));
     }
 
     public function testIsVisitedBy(): void
     {
-        self::assertFalse($this->visit->isVisitedBy($this->subject));
-        self::assertTrue($this->visit->isVisitedBy($this->user));
+        $this->assertFalse($this->visit->isVisitedBy($this->subject));
+        $this->assertTrue($this->visit->isVisitedBy($this->user));
     }
 }
