@@ -182,6 +182,6 @@ trait Visitable
         $column = $query->getModel()
             ->getQualifiedKeyName();
 
-        return $query->select(DB::raw(sprintf('COUNT(DISTINCT(%s))', $column)));
+        return $query->select(DB::raw(\sprintf('COUNT(DISTINCT(%s))', $column)));
     }
 }
