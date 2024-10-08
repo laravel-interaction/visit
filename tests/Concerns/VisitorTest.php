@@ -35,7 +35,7 @@ final class VisitorTest extends TestCase
         $subject = Subject::query()->create();
         $user->visit($subject);
         $this->assertSame(1, $user->visitVisitors()->count());
-        $this->assertSame(1, $user->visitVisitors->count());
+        $this->assertCount(1, $user->visitVisitors);
     }
 
     public function testHasVisited(): void

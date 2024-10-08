@@ -19,7 +19,7 @@ final class VisitableTest extends TestCase
         $subject = Subject::query()->create();
         $user->visit($subject);
         $this->assertSame(1, $subject->visitableVisits()->count());
-        $this->assertSame(1, $subject->visitableVisits->count());
+        $this->assertCount(1, $subject->visitableVisits);
     }
 
     public function testVisitorsCount(): void
@@ -35,7 +35,7 @@ final class VisitableTest extends TestCase
         $this->assertSame(1, $subject->visitorsCount());
         $user->visit($subject);
         $this->assertSame(1, $subject->visitors()->count());
-        $this->assertSame(1, $subject->visitors->count());
+        $this->assertCount(1, $subject->visitors);
         $paginate = $subject->visitors()
             ->paginate();
         $this->assertSame(1, $paginate->total());
@@ -49,7 +49,7 @@ final class VisitableTest extends TestCase
         $this->assertSame(2, $subject->visitorsCount());
         $this->assertSame(2, $subject->visitors()->count());
         $subject->load('visitors');
-        $this->assertSame(2, $subject->visitors->count());
+        $this->assertCount(2, $subject->visitors);
         $paginate = $subject->visitors()
             ->paginate();
         $this->assertSame(2, $paginate->total());
@@ -122,7 +122,7 @@ final class VisitableTest extends TestCase
         $subject = Subject::query()->create();
         $user->visit($subject);
         $user->visit($subject);
-        $this->assertSame(1, $subject->visitors->count());
+        $this->assertCount(1, $subject->visitors);
     }
 
     public function testScopeWhereVisitedBy(): void
