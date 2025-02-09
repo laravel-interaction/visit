@@ -152,7 +152,7 @@ final class VisitableTest extends TestCase
         $this->assertSame(1, $subject->visitsCount());
         $user = User::query()->create();
         request()
-            ->setUserResolver(static fn (): \LaravelInteraction\Visit\Tests\Models\User => $user);
+            ->setUserResolver(static fn (): User => $user);
         $subject->record(request());
         $subject->loadCount('visitableVisits');
         $this->assertSame(1, $subject->visitorsCount());
